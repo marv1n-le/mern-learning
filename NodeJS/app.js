@@ -1,7 +1,30 @@
-const sayHi = require('./3-utils.js');
-const names = require('./1-names.js');
-const data = require('./4.alternative-flavor.js');
-require('./5-mind-grenade.js');
-// console.log(data);
-// sayHi(names.john);
-// sayHi('Dave');
+const { readFile, writeFile } = require("fs");
+
+readFile("./content/first.txt", "utf8", (err, result) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  const first = result;
+
+  readFile("./content/second.txt", "utf8", (err, result) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const second = result;
+
+    // ✅ Đóng ngoặc đúng vị trí
+    writeFile(
+      "./content/result-async.txt",
+      `Here is the result : ${first}, ${second}`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log("File written successfully!");
+      }
+    );
+  });
+});
