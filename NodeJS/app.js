@@ -1,30 +1,38 @@
-const { readFile, writeFile } = require("fs");
+const { read } = require('fs');
 
-readFile("./content/first.txt", "utf8", (err, result) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  const first = result;
+const { readFile, writeFile } = require('fs').promises;
 
-  readFile("./content/second.txt", "utf8", (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    const second = result;
+// const start = async () => {
+//   try {
+//     const first = await readFile('./content/first.txt', 'utf8');
+//     const second = await readFile('./content/second.txt', 'utf8');
+//     await writeFile(
+//       './content/result-mind-grenade.txt',
+//       `Here is the result: ${first}, ${second}`,
+//       { flag: 'a' }
+//     );
+//     console.log('File written successfully');
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// }
 
-    // ✅ Đóng ngoặc đúng vị trí
-    writeFile(
-      "./content/result-async.txt",
-      `Here is the result : ${first}, ${second}`,
-      (err, result) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log("File written successfully!");
-      }
+// start();
+
+
+const start = async () => {
+  try {
+    const first = await readFile('./content/first.txt', 'utf8');
+    const second = await readFile('./content/second.txt', 'utf8');
+    await writeFile(
+      './content/result-mind-grenade.txt',
+      `Here is the result: ${first}, ${second}`,
+      { flag: 'a' }
     );
-  });
-});
+    console.log('File written successfully');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+start();
