@@ -1,13 +1,7 @@
-const EventEmitter = require('events');
+const { createReadStream } = require('fs');
 
-const customEmitter = new EventEmitter();
+const stream = createReadStream('./content/bigfile.txt');
 
-customEmitter.on('response', () => {
-  console.log(`data received`);
-});
-
-customEmitter.on("response", () => {
-  console.log(`some other logic here`);
-});
-
-customEmitter.emit('response');
+stream.on('data', (result) => {
+  console.log(result);
+})
