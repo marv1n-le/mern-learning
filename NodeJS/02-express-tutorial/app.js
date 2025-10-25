@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
-const { logger } = require('./logger');
+const logger = require('./logger');
+const authorize = require('./authorize');
 
 //only apply to /api
-app.use('/api', logger);
+// app.use([logger, authorize]);
+app.use(express.static('./public'));                            
 
 app.get('/', (req, res) => {
 res.send('Home Page');
