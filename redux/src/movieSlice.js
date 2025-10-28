@@ -12,7 +12,7 @@ const initialState = {
 };
 
 const movieSlice = createSlice({
-  name: "movies",
+  name: "movie",
   initialState,
   reducers: {
     addMovie: (state, action) => {
