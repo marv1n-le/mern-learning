@@ -7,7 +7,7 @@ import { Filter } from "lucide-react";
 const StatsandFilters = ({
   completedTasksCount = 0,
   activeTasksCount = 0,
-  filter = 0,
+  filter = 'all',
 }) => {
   return (
     <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
