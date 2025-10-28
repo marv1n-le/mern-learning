@@ -2,7 +2,7 @@ import Task from '../models/Task.js';
 
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().sort({ createdAt: "desc" });
     res.status(200).json(tasks);
   } catch (error) {
     console.error('Error fetching tasks:', error);
@@ -34,7 +34,7 @@ export const updateTask = async (req, res) => {
       },
       { new: true }
     );
-
+    res.status(201).json(updatedTask);
     if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
@@ -44,8 +44,16 @@ export const updateTask = async (req, res) => {
   }
 };
 
-export const deleteTask = (req, res) => {
-  const { id } = req.params;
-  // Here you would normally delete the task from your database
-  res.status(200).json({ message: `Task with id '${id}' deleted successfully!` });
+export const deleteTask = async (req, res) => {
+  try {
+    const deleteTask = await Task.findByIdAndDelete(req.params.id);
+    if (deleteTask) {
+      res.status(200).json({ message: 'Task deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Task not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
 };
