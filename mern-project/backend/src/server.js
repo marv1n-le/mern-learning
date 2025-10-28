@@ -8,8 +8,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use('/api/tasks', taskRoute);
 app.use(express.json());
+app.use('/api/tasks', taskRoute);
+
 
 connectDB();
 

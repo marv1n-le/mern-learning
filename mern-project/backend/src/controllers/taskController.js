@@ -1,18 +1,47 @@
-export const getAllTasks = (req, res) => {
-  res.status(200).json({ tasks: ["Task 1", "Task 2", "Task 3"] });
+import Task from '../models/Task.js';
+
+export const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
 };
 
-export const createTask = (req, res) => {
-  const { task } = req.body;
-  // Here you would normally add the task to your database
-  res.status(201).json({ message: `Task '${task}' created successfully!` });
+export const createTask = async (req, res) => {
+  try {
+    const { title } = req.body;
+    const task = new Task({ title });
+
+    const newTask = await task.save();
+    res.status(201).json(newTask);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
 
-export const updateTask = (req, res) => {
-  const { id } = req.params;
-  const { task } = req.body;
-  // Here you would normally update the task in your database
-  res.status(200).json({ message: `Task with id '${id}' updated to '${task}' successfully!` });
+export const updateTask = async (req, res) => {
+  try {
+    const { title, status, completedAt } = req.body;
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id, {
+        title,
+        status,
+        completedAt
+      },
+      { new: true }
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
 };
 
 export const deleteTask = (req, res) => {
