@@ -28,7 +28,6 @@ const HomePage = () => {
       setTaskBuffer(res.data.tasks);
       setActiveTaskCount(res.data.activeCount);
       setCompletedTaskCount(res.data.completedCount);
-      console.log("Fetched tasks:", res.data.tasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
       toast.error("Failed to fetch tasks. Please try again later.");
@@ -76,6 +75,7 @@ const HomePage = () => {
           <TaskList 
           filteredTasks={filteredTasks} 
           filter={filter}
+          handleTaskChanged={handleTaskChange}
           />
 
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
