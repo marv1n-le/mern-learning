@@ -3,12 +3,12 @@ import React from "react";
 const Footer = ({ completedTasksCount = 2, activeTasksCount = 4 }) => {
   return (
     <>
-      {completedTasksCount + activeTasksCount === 0 && (
+      {completedTasksCount + activeTasksCount > 0 && (
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
             {completedTasksCount > 0 && (
               <>
-                🎉 Tuyệt vời! Bạn đã hoàn thành {completedTasksCount} nhiệm vụ.
+                🎉 Tuyệt vời! Bạn đã hoàn thành {completedTasksCount} nhiệm vụ
                 {activeTasksCount > 0 &&
                   `, còn lại ${activeTasksCount} nhiệm vụ đang chờ bạn hoàn thành.`}
               </>

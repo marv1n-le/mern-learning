@@ -1,13 +1,32 @@
-import React from 'react'
-import Header from '../components/Header.jsx'
-import AddTask from '../components/AddTask'
-import TaskList from '../components/TaskList.jsx'
-import DateTimeFilter from '../components/DateTimeFilter.jsx'
-import TaskListPagination from '../components/TaskListPagination.jsx'
-import StatsandFilters from '../components/StatsandFilters.jsx'
-import Footer from '../components/Footer.jsx'
+import React, { useEffect, useState } from "react";
+import Header from "../components/Header.jsx";
+import AddTask from "../components/AddTask";
+import TaskList from "../components/TaskList.jsx";
+import DateTimeFilter from "../components/DateTimeFilter.jsx";
+import TaskListPagination from "../components/TaskListPagination.jsx";
+import StatsandFilters from "../components/StatsandFilters.jsx";
+import Footer from "../components/Footer.jsx";
+import { toast } from "sonner";
+import axios from "axios";
 
 const HomePage = () => {
+  const [taskBuffer, setTaskBuffer] = useState([]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const res = await axios.get("http://localhost:5001/api/tasks");
+      setTaskBuffer(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      toast.error("Failed to fetch tasks. Please try again later.");
+    }
+  };
+
   return (
     <div className="min-h-screen w-full relative">
       {/* Ocean Breeze Fade Gradient */}
@@ -25,7 +44,7 @@ const HomePage = () => {
 
           <StatsandFilters />
 
-          <TaskList />
+          <TaskList filteredTasks={taskBuffer} />
 
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <DateTimeFilter />
@@ -38,6 +57,6 @@ const HomePage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default HomePage
+export default HomePage;
